@@ -11,11 +11,14 @@ LDFLAGS := -lfl -lreadline
 BUILD_DIR := build
 TARGET    := $(BUILD_DIR)/cli
 
+UTIL_SRCS := $(wildcard src/utils/*.c)
+
 # Source files
 SRCS := src/main.c \
         src/commands/commands.c \
         src/commands/scaffold/scaffold.c \
         src/commands/template/template.c \
+		$(UTIL_SRCS) \
         build/lex.yy.c \
         build/cli.tab.c
 
@@ -36,23 +39,18 @@ all: $(TARGET)
 
 # Generate parser
 $(YACC_OUT) $(YACC_HDR): $(YACC_SRC)
-	@echo "Generating parser..."
 	@bison -d -o $(YACC_OUT) $(YACC_SRC)
 
 # Generate lexer
 $(LEX_OUT): $(LEX_SRC) $(YACC_HDR)
-	@echo "Generating lexer..."
 	@flex -o $(LEX_OUT) $(LEX_SRC)
 
 # Compile everything
 $(TARGET): $(SRCS) src/utils/defs.h
-	@echo "Compiling CLI..."
 	@$(CC) $(CFLAGS) $(SRCS) -o $(TARGET) $(LDFLAGS)
-	@echo "Done!"
 
 # Run CLI
 run: $(TARGET)
-	@echo "Starting CLI..."
 	@./$(TARGET)
 
 # Clean build

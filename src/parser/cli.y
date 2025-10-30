@@ -19,14 +19,12 @@ void yyerror(const char *s);
 %%
 
 commands:
-      /* empty */
-    | commands command NEWLINE { fflush(stdout); }
-    | commands command { fflush(stdout); }
+    | command commands
 ;
 
 command:
-      create_project
-    | install_template
+      create_project NEWLINE
+    | install_template NEWLINE
 ;
 
 install_template: 
@@ -35,6 +33,7 @@ install_template:
 create_project:
     CREATE PROJECT { create_project(); }
 ;
+
 
 
 %%

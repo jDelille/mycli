@@ -445,18 +445,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  9
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   6
+#define YYLAST   8
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  10
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  8
+#define YYNRULES  7
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  12
+#define YYNSTATES  14
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   264
@@ -506,7 +506,7 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    21,    21,    23,    24,    28,    29,    33,    36
+       0,    21,    21,    22,    26,    27,    31,    34
 };
 #endif
 
@@ -548,8 +548,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -6,     0,    -6,    -3,    -4,    -5,    -6,    -6,    -6,    -2,
-      -6,    -6
+      -3,    -1,    -5,     4,    -3,    -4,    -2,    -6,     0,    -6,
+      -6,    -6,    -6,    -6
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -557,20 +557,20 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     0,     0,     4,     6,     5,     8,     0,
-       3,     7
+       2,     0,     0,     0,     2,     0,     0,     7,     0,     1,
+       3,     5,     4,     6
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    -6,    -6,    -6
+      -6,     2,    -6,    -6,    -6
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     5,     6,     7
+       0,     3,     4,     5,     6
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -578,32 +578,32 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       2,     8,     9,     3,    10,     4,    11
+       1,     8,     2,     7,     9,    11,    10,    12,    13
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     4,     6,     3,     9,     5,     8
+       3,     6,     5,     4,     0,     9,     4,     9,     8
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    11,     0,     3,     5,    12,    13,    14,     4,     6,
-       9,     8
+       0,     3,     5,    11,    12,    13,    14,     4,     6,     0,
+      11,     9,     9,     8
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    10,    11,    11,    11,    12,    12,    13,    14
+       0,    10,    11,    11,    12,    12,    13,    14
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     3,     2,     1,     1,     3,     2
+       0,     2,     0,     2,     2,     2,     3,     2
 };
 
 
@@ -1066,32 +1066,20 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 3: /* commands: commands command NEWLINE  */
-#line 23 "src/parser/cli.y"
-                               { fflush(stdout); }
+  case 6: /* install_template: INSTALL TEMPLATE STRING  */
+#line 31 "src/parser/cli.y"
+                            { install_template((yyvsp[0].string)); }
 #line 1073 "build/cli.tab.c"
     break;
 
-  case 4: /* commands: commands command  */
-#line 24 "src/parser/cli.y"
-                       { fflush(stdout); }
+  case 7: /* create_project: CREATE PROJECT  */
+#line 34 "src/parser/cli.y"
+                   { create_project(); }
 #line 1079 "build/cli.tab.c"
     break;
 
-  case 7: /* install_template: INSTALL TEMPLATE STRING  */
-#line 33 "src/parser/cli.y"
-                            { install_template((yyvsp[0].string)); }
-#line 1085 "build/cli.tab.c"
-    break;
 
-  case 8: /* create_project: CREATE PROJECT  */
-#line 36 "src/parser/cli.y"
-                   { create_project(); }
-#line 1091 "build/cli.tab.c"
-    break;
-
-
-#line 1095 "build/cli.tab.c"
+#line 1083 "build/cli.tab.c"
 
       default: break;
     }
@@ -1284,7 +1272,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 40 "src/parser/cli.y"
+#line 39 "src/parser/cli.y"
 
 
 void yyerror(const char *s) {

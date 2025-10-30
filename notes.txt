@@ -1,0 +1,3 @@
+type in options (e.g. yes / no, template list, (maybe allow user to favorite a template), bool, cancel (allow cancel if option is not required))
+
+In template {CLASS_NAME}, {TYPE=int, float, bool}

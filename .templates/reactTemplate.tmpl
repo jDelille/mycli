@@ -1,0 +1,49 @@
+// # This is a comment
+
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+// src/App.js
+import React from 'react';
+
+export default function App() {
+    return <h1>hello world</h1>;
+}
+
+// public/index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+
+// package.json
+{
+  "name": "PROJECT_NAME",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  }
+}
+
+// # Dependencies
+react
+react-dom
+react-scripts
