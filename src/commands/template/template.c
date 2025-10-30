@@ -340,10 +340,6 @@ void generate_project_from_template(
     /* Setup variables */
     char line[1024];
 
-    const char *placeholders[] = {"PROJECT_NAME"};
-    const char *replacements[] = {projectName};
-    int n = 2;
-
     mkdir(projectName, 0755);
 
     /* Read the template line by line */
