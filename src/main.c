@@ -6,6 +6,5 @@ int yyparse(void);
 
 int main(void) {
     yyparse();
-    printf("> ");
     return 0;
 }

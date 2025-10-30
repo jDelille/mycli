@@ -1,11 +1,11 @@
 // # This is a comment 
 
 // app/page.tsx
-export default function Home() {
+export default function [COMPONENT_NAME=Component]() {
   return (
-    <div className="page">
-      <h1>THIS IS SICK!</h1>
-    </div>
+    <[ELEMENT=div] className="[CLASS_NAME=container]">
+      Hello world
+    </[ELEMENT=div]>
   );
 }
 
@@ -19,7 +19,9 @@ export default function Home() {
 // README.md
 
 // .gitignore
-./node_modules
+**/node_modules/
+
+// # COMPONENTS
 
 // # Dependencies
 

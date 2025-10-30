@@ -77,6 +77,18 @@ void choose_template(char *template_name, size_t size)
     template_name[size - 1] = '\0';
 }
 
+/* Step 3: Additional files */
+void add_additional_files()
+{
+    const char *yes_no[] = {"Yes", "No"};
+    int create_more = selection("Do you want to generate additional files?", yes_no, 2);
+
+    if (create_more)
+    {
+        printf("Hey");
+    }
+}
+
 void scaffold()
 {
     char project_name[256];
@@ -84,6 +96,51 @@ void scaffold()
 
     get_name(project_name, sizeof(project_name));
     choose_template(template_name, sizeof(template_name));
-    
-    generate_project_from_template(template_name, project_name);
+
+    // Step 3: Ask if the user wants to customize placeholders
+    const char *yes_no[] = {"Yes", "No"};
+    int customize = selection("Do you want to customize placeholder values?", yes_no, 2);
+
+    const char *placeholders[] = {"COMPONENT_NAME", "ELEMENT", "CLASS_NAME"};
+
+    /*
+        Make this dynamic and get the default names from the template instead of hardcoding
+    */
+
+    char user_component[256] = "Component";
+    char user_element[256] = "div";
+    char user_class[256] = "container";
+    const char *replacements[] = {user_component, user_element, user_class};
+    int n = 3;
+
+    if (!customize)
+    {
+        printf("Enter component name (default: Component): ");
+        fgets(user_component, sizeof(user_component), stdin);
+        user_component[strcspn(user_component, "\n")] = 0;
+        if (strlen(user_component) == 0)
+        {
+            strcpy(user_component, "Component");
+        }
+
+        printf("Enter element type (default: div): ");
+        fgets(user_element, sizeof(user_element), stdin);
+        user_element[strcspn(user_element, "\n")] = 0;
+        if (strlen(user_element) == 0)
+        {
+            strcpy(user_element, "div");
+        }
+
+        printf("Enter class name (default: container): ");
+        fgets(user_class, sizeof(user_class), stdin);
+        user_class[strcspn(user_class, "\n")] = 0;
+        if (strlen(user_class) == 0)
+        {
+            strcpy(user_class, "container");
+        }
+    }
+
+    generate_project_from_template(template_name, project_name, placeholders, replacements, n);
+
+    // add_additional_files();
 }

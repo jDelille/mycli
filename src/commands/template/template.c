@@ -189,7 +189,6 @@ static void replace_placeholders(
     while (*cursor)
     {
         const char *start_bracket = strchr(cursor, '[');
-
         if (!start_bracket)
         {
             strncat(output, cursor, output_size - strlen(output) - 1);
@@ -199,7 +198,6 @@ static void replace_placeholders(
         strncat(output, cursor, start_bracket - cursor);
 
         const char *end_bracket = strchr(start_bracket, ']');
-
         if (!end_bracket)
         {
             strncat(output, start_bracket, output_size - strlen(output) - 1);
@@ -207,15 +205,25 @@ static void replace_placeholders(
         }
 
         char placeholder[128];
+        char default_value[128] = "";
+
         size_t key_len = end_bracket - start_bracket - 1;
         if (key_len >= sizeof(placeholder))
-        {
             key_len = sizeof(placeholder) - 1;
-        }
         strncpy(placeholder, start_bracket + 1, key_len);
         placeholder[key_len] = '\0';
 
-        const char *replacement = "";
+        char *equal_sign = strchr(placeholder, '=');
+
+        if (equal_sign)
+        {
+            *equal_sign = '\0';
+            strncpy(default_value, equal_sign + 1, sizeof(default_value));
+        }
+
+        // Find replacement from user input
+        const char *replacement = default_value;
+
         for (int i = 0; i < key_count; i++)
         {
             if (strcmp(placeholder, placeholder_keys[i]) == 0)
@@ -311,7 +319,12 @@ void create_package_json_file(const char *project_name, const char *dependencies
 }
 
 /* Generate a new file from a template */
-void generate_project_from_template(const char *templateName, const char *projectName)
+void generate_project_from_template(
+    const char *templateName,
+    const char *projectName,
+    const char **placeholder_keys,
+    const char **replacement_values,
+    int key_count)
 {
     /* Locate the template */
     char templatePath[512];
@@ -346,7 +359,6 @@ void generate_project_from_template(const char *templateName, const char *projec
         /* Handle files */
         if (strncmp(line, "//", 2) == 0)
         {
-            // Determine if line is a directory or file
             size_t len = strlen(line);
             if (line[len - 2] == '/') // trailing slash before newline
                 create_dir_from_line(line + 2, projectName);
@@ -358,7 +370,8 @@ void generate_project_from_template(const char *templateName, const char *projec
 
                 currentFile[strcspn(currentFile, "\n")] = 0;
 
-                create_file_from_line(templateFile, currentFile, placeholders, replacements, n);
+                create_file_from_line(templateFile, currentFile,
+                                      placeholder_keys, replacement_values, key_count);
             }
         }
 
@@ -369,9 +382,11 @@ void generate_project_from_template(const char *templateName, const char *projec
         }
     }
 
-    printf("Project %s%s%s created using the %s%s%s template\n",
+    printf("\n");
+    printf("✨ Project %s%s%s created using the %s%s%s template\n",
            STYLE_GREEN, projectName, STYLE_RESET,
            STYLE_GREEN, templateName, STYLE_RESET);
+    printf("\n");
 
     fclose(templateFile);
 }
